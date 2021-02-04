@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use App\Models\Reply;
+use App\Models\Thread;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ReplyFactory extends Factory
@@ -23,10 +25,10 @@ class ReplyFactory extends Factory
     {
         return [
             'user_id' => function () {
-                return \App\Models\User::factory()->create()->id;
+                return User::factory()->create()->id;
             },
             'thread_id' => function () {
-                return \App\Models\Thread::factory()->create()->id;
+                return Thread::factory()->create()->id;
             },
             'body' => $this->faker->paragraph
         ];

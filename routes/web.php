@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ThreadController;
+use App\Http\Controllers\ThreadsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,6 +22,6 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/threads', [ThreadController::class, 'index']);
+Route::get('/threads', [ThreadsController::class, 'index']);
 Route::get('/threads/{thread}', [
-    ThreadController::class, 'show'])->name('threads.show');
+    ThreadsController::class, 'show'])->name('threads.show');

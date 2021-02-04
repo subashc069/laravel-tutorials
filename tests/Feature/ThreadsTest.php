@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
+use App\Models\Reply;
 use App\Models\Thread;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -11,6 +12,12 @@ class ThreadsTest extends TestCase
 {
     use RefreshDatabase;
     
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->thread = Thread::factory()->create();
+    }
     /**
      * A basic feature test example.
      *
@@ -19,11 +26,8 @@ class ThreadsTest extends TestCase
      */
     public function user_can_view_all_threads()
     {
-        $thread = Thread::factory()->create();
-
-        $response = $this->get('/threads');
-
-        $response->assertSee($thread->title);
+        $this->get('/threads')
+            ->assertSee($this->thread->title);
     }
 
     /**
@@ -34,10 +38,23 @@ class ThreadsTest extends TestCase
      */
     public function user_can_view_single_threads()
     {
-        $thread = Thread::factory()->create();
+        $this->get('/threads/' . $this->thread->id)
+            ->assertSee($this->thread->title);
+    }
 
-        $response = $this->get('/threads/' . $thread->id);
+    /**
+     * A basic feature test example.
+     *
+     * @return void
+     * @test
+     */
+    public function user_can_read_replies_associated_with_a_thread()
+    {
+        $reply = Reply::factory()->create([
+            'thread_id' => $this->thread->id,
+        ]);
 
-        $response->assertSee($thread->title);
+        $this->get('/threads/' . $this->thread->id)
+            ->assertSee($reply->body);
     }
 }
