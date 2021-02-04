@@ -1,0 +1,9 @@
+#forum
+
+1. Thread
+2. Reply
+3. User
+
+A. Thread is created by a user
+A reply belonga to a thread and a user
+
