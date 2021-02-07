@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ThreadsController;
+use App\Http\Controllers\RepliesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,4 +25,8 @@ require __DIR__.'/auth.php';
 
 Route::get('/threads', [ThreadsController::class, 'index']);
 Route::get('/threads/{thread}', [
-    ThreadsController::class, 'show'])->name('threads.show');
+	ThreadsController::class, 'show'])->name('threads.show');
+Route::post('/threads/{thread}/replies',[
+	RepliesController::class,
+	'store'	
+]);

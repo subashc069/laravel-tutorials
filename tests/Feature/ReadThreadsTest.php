@@ -8,7 +8,7 @@ use App\Models\Thread;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ThreadsTest extends TestCase
+class ReadThreadsTest extends TestCase
 {
     use RefreshDatabase;
     
@@ -38,7 +38,7 @@ class ThreadsTest extends TestCase
      */
     public function user_can_view_single_threads()
     {
-        $this->get('/threads/' . $this->thread->id)
+        $this->get($this->thread->path())
             ->assertSee($this->thread->title);
     }
 
@@ -54,7 +54,7 @@ class ThreadsTest extends TestCase
             'thread_id' => $this->thread->id,
         ]);
 
-        $this->get('/threads/' . $this->thread->id)
+        $this->get($this->thread->path())
             ->assertSee($reply->body);
     }
 }

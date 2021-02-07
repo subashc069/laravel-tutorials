@@ -5,23 +5,21 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    @foreach ($threads as $thread)
-                        <article>
-                            <h4>
-                                <a href="{{ $thread->path() }}">
-                                    {{ $thread->title }}
-                                </a>
-                            </h4>
-                            <p class="text-gray-500">{{ $thread->body }}</p>
-                        </article>
-                        <hr>
-                    @endforeach
+    @foreach ($threads as $thread)
+        <div class="max-w-2xl mx-auto sm:px-6 lg:px-8 py-6">
+            <div class="overflow-hidden shadow-md text-gray-100">
+                <!-- card header -->
+                <div class="px-6 py-4 bg-gray-800 border-b border-gray-600 font-bold uppercase">
+                    <a href="{{ $thread->path() }}" class="text-blue-400">{{ $thread->title }}</a>
+                </div>
+        
+                <!-- card body -->
+                <div class="p-6 bg-gray-800 border-b border-gray-600">
+                    <!-- content goes here -->
+                    {{ $thread->body }}
                 </div>
             </div>
         </div>
-    </div>
+    @endforeach
+                
 </x-app-layout>
