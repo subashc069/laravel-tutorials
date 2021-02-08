@@ -14,11 +14,14 @@ class CreateThreadsTest extends TestCase
 	/**
 	 * @test
 	 **/
-	public function an_unauthenticated_user_may_not_create_threads()
+	public function a_guest_user_may_not_create_threads()
 	{
-		$this->expectException('Illuminate\Auth\AuthenticationException');
-		$this->withoutExceptionHandling();
-		$this->post('threads',[]);
+		//$this->expectException('Illuminate\Auth\AuthenticationException');
+		//$this->withoutExceptionHandling();
+		$this->get('/threads/create')
+			->assertRedirect('/login');
+		$this->post('threads',[])
+			->assertRedirect('/login');
 	}
     /**
      * A basic feature test example.
@@ -32,7 +35,7 @@ class CreateThreadsTest extends TestCase
 
 		$this->actingAs(User::factory()->create());
 
-		$thread = Thread::factory()->make();
+		$thread = Thread::factory()->create();
 
 		$this->post('/threads', $thread->toArray());
 		
