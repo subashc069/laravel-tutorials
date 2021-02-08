@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Thread extends Model
 {
     use HasFactory;
+	
+	protected $guarded = [];
 
     public function path()
     {

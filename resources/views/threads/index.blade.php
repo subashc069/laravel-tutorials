@@ -3,8 +3,32 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Dashboard') }}
         </h2>
+        <a class="text-grey-700" href="{{ route('threads.index') }}">All Threads</a>
     </x-slot>
-
+    <div class="max-w-2xl mx-auto sm:px-6 lg:px-8 py-6">
+        <div class="overflow-hidden shadow-md text-gray-100">
+            <form action="{{ route('threads.store') }}" method="post">
+                @csrf
+                <div>
+                    <label for="title" class="text-gray-700">Title</label>
+                    <input class="text-gray-700"
+                        type="text" 
+                        name="title" 
+                        placeholder="Write something"
+                    >
+                </div>
+                <div>
+                    <label for="body" class="text-gray-700">Your Thread</label>
+                    <input class="text-gray-700"
+                        type="text" 
+                        name="body" 
+                        placeholder="Write something"
+                    >
+                </div>  
+                <button type="submit" class="text-gray-700">Reply</button>                  
+            </form>
+        </div>
+    </div>
     @foreach ($threads as $thread)
         <div class="max-w-2xl mx-auto sm:px-6 lg:px-8 py-6">
             <div class="overflow-hidden shadow-md text-gray-100">

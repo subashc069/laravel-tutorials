@@ -23,4 +23,20 @@
     @foreach ($thread->replies as $reply)
         @include('threads.reply')
     @endforeach
+    <div class="max-w-2xl mx-auto sm:px-6 lg:px-8 py-6">
+        <div class="overflow-hidden shadow-md text-gray-100">
+            <form action="{{ route('replies.store', $thread) }}" method="post">
+                @csrf
+                <div>
+                    <input class="text-gray-700"
+                        type="text" 
+                        name="body" 
+                        placeholder="Write something"
+                    >
+                </div>  
+                <button type="submit" class="text-gray-700">Reply</button>                  
+            </form>
+        </div>
+    </div>
+    
 </x-app-layout>
