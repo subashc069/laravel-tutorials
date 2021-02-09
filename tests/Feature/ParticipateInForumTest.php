@@ -17,7 +17,7 @@ class ParticipateInForumTest extends TestCase
 	/**
 	 * @test
 	 **/
-	public function unauthenticated_users_may_not_add_a_reply()
+	function unauthenticated_users_may_not_add_a_reply()
 	{
 		$this->post('threads/some-thread/1/replies',[])
 			->assertRedirect('/login');
@@ -29,7 +29,7 @@ class ParticipateInForumTest extends TestCase
 	 * @return void
 	 * @test
      */
-    public function an_authenticated_user_can_participate_in_forum_thread()
+    function an_authenticated_user_can_participate_in_forum_thread()
 	{
 		//Given we have an authenticated user
 		//And an existing thread
@@ -37,8 +37,7 @@ class ParticipateInForumTest extends TestCase
 		//Their reply should be visible on the page
 		
 		$this->withoutExceptionHandling();
-		$user = User::factory()->create();
-		$this->actingAs($user);
+		$this->signIn();
 		$thread = Thread::factory()->create();
 		$reply = Reply::factory()->make();
 		
@@ -46,5 +45,18 @@ class ParticipateInForumTest extends TestCase
 		
 		$this->get($thread->path())
 			->assertSee($reply->body);
+    }
+
+    /**
+     * @test
+     */
+    function a_reply_requires_a_body()
+    {
+        $this->signIn();
+        $thread = Thread::factory()->create();
+        $reply = Reply::factory()->make(['body' => null]);
+        
+		$this->post($thread->path() . '/replies', $reply->toArray())
+            ->assertSessionHasErrors('body');    
     }
 }

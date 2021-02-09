@@ -18,21 +18,25 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::get(
+    '/dashboard', 
+    function () {
+        return view('dashboard');
+    }
+)->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
 Route::get('/threads', [ThreadsController::class, 'index'])
-	->name('threads.index');
+    ->name('threads.index');
 Route::get('/threads/create', [ThreadsController::class, 'create'])
-	->name('threads.create');
+    ->name('threads.create');
 Route::get('/threads/{channel}/{thread}', [ThreadsController::class, 'show'])
-	->name('threads.show');
+    ->name('threads.show');
 
 Route::post('/threads', [ThreadsController::class, 'store'])
-	->name('threads.store');
+    ->name('threads.store');
 
+//This is something to happen
 //Route::resource('/threads', ThreadsController::class);
 Route::post('/threads/{channel}/{thread}/replies', [
 	RepliesController::class,
