@@ -23,7 +23,12 @@
                     <div class="grid grid-cols-3 gap-6">
                         <div class="col-span-6 sm:col-span-4">
                             <label for="title" class="block text-sm font-medium text-gray-700">Thread Title</label>
-                            <input type="text" name="title" id="title" autocomplete="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input type="text" 
+                                name="title" 
+                                id="title"
+                                value="{{ old('title') }}" 
+                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                            >
                         </div>
                     </div>
 
@@ -35,7 +40,8 @@
                         <textarea id="body" 
                             name="body" 
                             rows="3" 
-                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md" 
+                            value="{{ old('body') }}" 
+                            class="@error('body') is-invalid @enderror shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md" 
                             placeholder="Your thread here"
                         ></textarea>
                     </div>
@@ -52,6 +58,9 @@
                     Save
                     </button>
                 </div>
+                @error('title', 'body', 'channel_id')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
                 </div>
             </form>
             </div>

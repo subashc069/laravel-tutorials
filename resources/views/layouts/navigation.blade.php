@@ -18,9 +18,11 @@
                     <x-nav-link :href="route('threads.index')" :active="request()->routeIs('threads.index')">
                         {{ __('All Threads') }}
                     </x-nav-link>
-                    
+                    <x-nav-link :href="route('threads.create')" :active="request()->routeIs('threads.create')">
+                        {{ __('New Thread') }}
+                    </x-nav-link>
                     <div class="dropdown">
-                        <button class="dropbtn text-gray-700">Dropdown
+                        <button class="dropbtn text-gray-700">Channels
                           <i class="fa fa-caret-down"></i>
                         </button>
                         <div class="dropdown-content">
