@@ -35,7 +35,7 @@ Route::get('/threads/{channel}/{thread}', [ThreadsController::class, 'show'])
 
 Route::post('/threads', [ThreadsController::class, 'store'])
     ->name('threads.store');
-
+Route::get('/threads/{channel:slug}', [ThreadsController::class, 'index']);
 //This is something to happen
 //Route::resource('/threads', ThreadsController::class);
 Route::post('/threads/{channel}/{thread}/replies', [

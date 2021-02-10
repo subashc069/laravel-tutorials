@@ -15,6 +15,20 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('threads.index')" :active="request()->routeIs('threads.index')">
+                        {{ __('All Threads') }}
+                    </x-nav-link>
+                    
+                    <div class="dropdown">
+                        <button class="dropbtn text-gray-700">Dropdown
+                          <i class="fa fa-caret-down"></i>
+                        </button>
+                        <div class="dropdown-content">
+                            @foreach(App\Models\Channel::all() as $channel)
+                                <a href="/threads/{{ $channel->slug }}">{{ $channel->slug }}</a>
+                            @endforeach
+                        </div>
+                      </div>
                 </div>
             </div>
 

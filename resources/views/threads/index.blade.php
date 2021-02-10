@@ -3,7 +3,6 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Dashboard') }}
         </h2>
-        <a class="text-grey-700" href="{{ route('threads.index') }}">All Threads</a>
     </x-slot>
     <div class="max-w-2xl mx-auto sm:px-6 lg:px-8 py-6">
         <div class="overflow-hidden shadow-md text-gray-100">
