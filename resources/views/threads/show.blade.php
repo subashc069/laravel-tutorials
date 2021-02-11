@@ -1,44 +1,65 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ $thread->title }}
-        </h2>
-    </x-slot>
+@extends('layouts.app')
 
-    <div class="max-w-2xl mx-auto sm:px-6 lg:px-8 py-6">
-        <div class="overflow-hidden shadow-md text-gray-100">
-            <!-- card header -->
-            <div class="px-6 py-4 bg-gray-800 border-b border-gray-600 font-bold uppercase">
-                <a href="#" class="text-blue-400">{{ $thread->creator->name }}</a>
-                 posted {{ $thread->title }}
-            </div>
+@section('content')
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">{{ __('Threads') }}</div>
     
-            <!-- card body -->
-            <div class="p-6 bg-gray-800 border-b border-gray-600">
-                <!-- content goes here -->
-                {{ $thread->body }}
+                    <div class="card-body">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="level">
+                                    <div class="flex">
+                                        <h4>
+                                            <a href="{{ $thread->path() }}">
+                                                {{ $thread->title }}
+                                            </a>
+                                        </h4>
+
+                                        <h5>
+                                            Posted By: <a href="#">{{ $thread->creator->name }}</a>
+                                        </h5>
+                                    </div>
+
+                                    
+                                </div>
+                            </div>
+
+                            <div class="panel-body">
+                                <div class="body">{!! $thread->body !!}</div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
             </div>
+            @foreach ($thread->replies as $reply)
+                @include('threads.reply')
+            @endforeach
+            @auth
+                <div class="col-md-8 col-md-offset-2 pt-2">
+                    <form method="POST" action="{{ $thread->path() . '/replies' }}">
+                        {{ csrf_field() }}
+    
+                        <div class="form-group">
+                            <textarea name="body" id="body" class="form-control" placeholder="Have something to say?" rows="5"></textarea>
+                        </div>
+    
+                        <button type="submit" class="btn btn-primary">Post</button>
+                    </form>
+                </div>
+            @endauth
+    
+            @guest
+                <p class="text-center">Please <a href="{{ route('login') }}">sign in</a> to participate in this discussion.</p>
+            @endguest
         </div>
+
+        
     </div>
 
-    @foreach ($thread->replies as $reply)
-        @include('threads.reply')
-    @endforeach
 
-    <div class="max-w-2xl mx-auto sm:px-6 lg:px-8 py-6">
-        <div class="overflow-hidden shadow-md text-gray-100">
-            <form action="{{ route('replies.store', ['thread' => $thread, 'channel' => $thread->channel->slug]) }}" method="post">
-                @csrf
-                <div>
-                    <input class="text-gray-700"
-                        type="text" 
-                        name="body" 
-                        placeholder="Write something"
-                    >
-                </div>  
-                <button type="submit" class="text-gray-700">Reply</button>                  
-            </form>
-        </div>
-    </div>
     
-</x-app-layout>
+@endsection

@@ -1,17 +1,35 @@
-<div class="max-w-2xl mx-auto sm:px-6 lg:px-8 py-6">
-    <div class="overflow-hidden shadow-md">
-        <!-- card header -->
-        <div class="px-6 py-4 bg-white border-b border-gray-200 font-bold uppercase">
-            <a href="#" class="text-blue-400">
-                {{ $reply->owner->name }}
-            </a>
-            said {{ $reply->created_at->diffForHumans() }}...
-        </div>
+@foreach ($thread->replies as $reply)
+<div class="col-md-8 col-md-offset-2 pt-2">
+    <div class="card">
+        <div class="card-header">{{ __('Reply') }}</div>
 
-        <!-- card body -->
-        <div class="p-6 bg-white border-b border-gray-200">
-            <!-- content goes here -->
-            {{ $reply->body }}
+        <div class="card-body">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="level">
+                        <div class="flex">
+                            <h4>
+                                <a href="#">
+                                    {{ $reply->owner->name }}
+                                </a> said {{ $reply->created_at->diffForHumans() }}...
+                            </h4>
+
+                            <h5>
+                                {{ $reply->body }}
+
+                            </h5>
+                        </div>
+
+                        
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="body">{!! $thread->body !!}</div>
+                </div>
+            </div>
+            <hr>
         </div>
     </div>
 </div>
+@endforeach

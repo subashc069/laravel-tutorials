@@ -18,14 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get(
-    '/dashboard', 
-    function () {
-        return view('dashboard');
-    }
-)->middleware(['auth'])->name('dashboard');
-
-require __DIR__.'/auth.php';
+//require __DIR__.'/auth.php';
 Route::get('/threads', [ThreadsController::class, 'index'])
     ->name('threads.index');
 Route::get('/threads/create', [ThreadsController::class, 'create'])
@@ -42,3 +35,7 @@ Route::post('/threads/{channel}/{thread}/replies', [
 	RepliesController::class,
 	'store'	
 ])->name('replies.store');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

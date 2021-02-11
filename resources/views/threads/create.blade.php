@@ -1,76 +1,84 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{-- {{ $thread->title }} --}}
-        </h2>
-    </x-slot>
-    
-    <div class="pt-6">
-        <div class="md:grid md:grid-cols-3 md:gap-6">
-            <div class="md:col-span-1">
-            <div class="px-4 sm:px-0">
-                <h3 class="text-lg font-medium leading-6 text-gray-900">Create Thread</h3>
-                <p class="mt-1 text-sm text-gray-600">
-                This information will be displayed publicly so be careful what you share.
-                </p>
-            </div>
-            </div>
-            <div class="mt-5 md:mt-0 md:col-span-2">
-            <form action="{{ route('threads.store') }}" method="POST">
-                @csrf
-                <div class="shadow sm:rounded-md sm:overflow-hidden">
-                <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
-                    <div class="grid grid-cols-3 gap-6">
-                        <div class="col-span-6 sm:col-span-4">
-                            <label for="title" class="block text-sm font-medium text-gray-700">Thread Title</label>
-                            <input type="text" 
-                                name="title" 
-                                id="title"
-                                value="{{ old('title') }}" 
-                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                            >
-                        </div>
-                    </div>
+@extends('layouts.app')    
 
-                    <div>
-                    <label for="body" class="block text-sm font-medium text-gray-700">
-                        Your thread
-                    </label>
-                    <div class="mt-1">
-                        <textarea id="body" 
-                            name="body" 
-                            rows="3" 
-                            value="{{ old('body') }}" 
-                            class="@error('body') is-invalid @enderror shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md" 
-                            placeholder="Your thread here"
-                        ></textarea>
-                    </div>
-                    <p class="mt-2 text-sm text-gray-500">
-                        Enter your thread
-                    </p>
-                    </div>
+@section('content')
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">{{ __('Create thread') }}</div>
 
-                    <div>
-                    
+                    <div class="card-body">
+                        <form method="POST" action="{{ route('threads.store') }}">
+                            @csrf
+
+                            <div class="form-group row">
+                                <label for="title" 
+                                    class="col-md-4 col-form-label text-md-right">{{ __('Give it a title') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="title" 
+                                        type="text" 
+                                        class="form-control @error('title') is-invalid @enderror" 
+                                        name="title" value="{{ old('title') }}" 
+                                        autofocus
+                                    >
+
+                                    @error('title')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label text-md-right" for="channel_id">Example select</label>
+                                <div class="col-md-6">
+                                    <select class="form-control @error('channel_id') is-invalid @enderror" name="channel_id">
+                                        <option>Select One</option>
+                                        @foreach ($channels as $channel)
+                                            <option value="{{ $channel->id }}" {{ $channel->id == old('channel_id') ? 'selected' : '' }}>{{ $channel->slug }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('channel_id')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="body" 
+                                    class="col-md-4 col-form-label text-md-right"
+                                >
+                                    {{ __('Your thread details') }}
+                                </label>
+
+                                <div class="col-md-6">
+                                    <input id="body" 
+                                        type="text" 
+                                        class="form-control @error('body') is-invalid @enderror" 
+                                        name="body" 
+                                    >
+
+                                    @error('body')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-0">
+                                <div class="col-md-8 offset-md-4">
+                                    <button type="submit" class="btn btn-primary">
+                                        {{ __('Create') }}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                    <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Save
-                    </button>
-                </div>
-                @error('title', 'body', 'channel_id')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                @enderror
-                </div>
-            </form>
             </div>
         </div>
     </div>
-
-    <div class="hidden sm:block" aria-hidden="true">
-        <div class="py-5">
-            <div class="border-t border-gray-200"></div>
-        </div>
-    </div>
-
-</x-app-layout>
+@endsection
