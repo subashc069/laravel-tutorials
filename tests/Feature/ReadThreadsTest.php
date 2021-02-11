@@ -8,6 +8,7 @@ use App\Models\Thread;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Channel;
+use App\Models\User;
 
 class ReadThreadsTest extends TestCase
 {
@@ -79,4 +80,21 @@ class ReadThreadsTest extends TestCase
             ->assertSee($threadInChannel->title)
             ->assertDontSee($threadNotInChannel->title);
     }
+    
+    /**
+     * @test
+     */
+    function a_users_can_filter_threads_by_username()
+    {
+        $this->withoutExceptionHandling();
+        $this->signIn(User::factory()->create(['name' => 'JohnDoe']));
+
+        $threadbyJohn = Thread::factory()->create(['user_id' => auth()->id()]);
+        $threadNotByJohn = Thread::factory()->create();
+        
+        $this->get('/threads?by=JohnDoe')
+            ->assertSee($threadbyJohn->title)
+            ->assertDontSee($threadNotByJohn->title);
+    }
+
 }
