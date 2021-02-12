@@ -4,6 +4,7 @@
 /storage/*.key
 /vendor
 tags
+*.swp
 _.swp
 .env
 .env.backup

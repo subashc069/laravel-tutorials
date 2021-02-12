@@ -46,8 +46,7 @@
                                 id="body" 
                                 class="form-control" 
                                 placeholder="Have something to say?" 
-                                rows="5">
-                            </textarea>
+                                rows="5"></textarea>
                         </div>
     
                         <button type="submit" class="btn btn-primary">Post</button>
