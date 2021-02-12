@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ThreadsController;
 use App\Http\Controllers\RepliesController;
+use App\Http\Controllers\FavoritesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,7 +18,9 @@ use App\Http\Controllers\RepliesController;
 Route::get('/', function () {
     return view('welcome');
 });
+Auth::routes();
 
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 //require __DIR__.'/auth.php';
 Route::get('/threads', [ThreadsController::class, 'index'])
     ->name('threads.index');
@@ -35,7 +38,10 @@ Route::post('/threads/{channel}/{thread}/replies', [
 	RepliesController::class,
 	'store'	
 ])->name('replies.store');
+Route::post('/replies/{reply}/favorites', [
+	FavoritesController::class,
+	'store'	
+])->name('favorites.store');
 
-Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
