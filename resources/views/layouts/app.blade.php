@@ -18,6 +18,20 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style>
+        body {
+            padding-bottom: 100px;
+        }
+        
+        .level {
+            display:flex;
+            align-items:center;
+        }
+        
+        .flex {
+            flex: 1;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
@@ -34,12 +48,16 @@
                         aria-haspopup="true" 
                         aria-expanded="false">Browse</a>
                     <div class="dropdown-menu">
-                         <a class="dropdown-item" href="{{ route('threads.index') }}">
+                        <a class="dropdown-item" href="{{ route('threads.index') }}">
                             {{ __('All Threads') }}
                         </a>
                         @auth
                             <a class="dropdown-item" href="/threads?by={{ auth()->user()->name }}">My Threads</a>
-                        @endauth
+                        @endauth 
+                        <a class="dropdown-item" href="/threads?popular=1">
+                            {{ __('All Time Popular') }}
+                        </a>
+                        
                     </div>
                 </div>
                 <div class="nav-item dropdown">

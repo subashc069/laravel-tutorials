@@ -6,30 +6,24 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Threads') }}</div>
-
                 <div class="card-body">
                     @forelse ($threads as $thread)
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <div class="level">
-                                    <div class="flex">
-                                        <h4>
-                                            <a href="{{ $thread->path() }}">
-                                                {{ $thread->title }}
-                                            </a>
-                                        </h4>
-
-                                        <h5>
-                                            Posted By: <a href="#">{{ $thread->creator->name }}</a>
-                                        </h5>
-                                    </div>
-
-                                    
+                                    <h4 class="flex mb-0">
+                                        <a href="{{ $thread->path() }}">
+                                            {{ $thread->title }}
+                                        </a>
+                                    </h4>
+                                    <a href="{{ $thread->path()}}">
+                                        <strong>{{ $thread->replies_count }} {{ Str::plural('comment') }}</strong>
+                                    </a>
                                 </div>
                             </div>
 
                             <div class="panel-body">
-                                <div class="body">{!! $thread->body !!}</div>
+                                <div class="body">{{ $thread->body }}</div>
                             </div>
                         </div>
                         <hr>
