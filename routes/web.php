@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ThreadsController;
 use App\Http\Controllers\RepliesController;
 use App\Http\Controllers\FavoritesController;
+use App\Http\Controllers\ProfilesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,6 +43,8 @@ Route::post('/replies/{reply}/favorites', [
 	FavoritesController::class,
 	'store'	
 ])->name('favorites.store');
+Route::get('/profiles/{user}', [ProfilesController::class, 'show'])
+    ->name('profiles.show');
 
 
 
