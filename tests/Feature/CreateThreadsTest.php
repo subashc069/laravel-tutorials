@@ -7,6 +7,7 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Thread;
 use App\Models\Channel;
+use App\Models\Reply;
 
 class CreateThreadsTest extends TestCase
 {
@@ -42,6 +43,40 @@ class CreateThreadsTest extends TestCase
 			->assertSee($thread->body);
     }
 
+    /**
+     * @test
+     */
+    function guests_cannot_delete_a_thread()
+    {
+        $thread = Thread::factory()->create();
+        $response = $this->delete($thread->path());
+
+        $response->assertRedirect('/login');
+    }
+    /**
+     * @test
+     *
+     * @return void
+     */
+    function threads_can_be_deleted()
+    {
+        $this->signIn();
+		$this->withoutExceptionHandling();
+
+        $thread = Thread::factory()->create();
+        $reply = Reply::factory()->create(['thread_id' => $thread->id]);
+        $response = $this->json('DELETE', $thread->path());
+        $response->assertStatus(204);
+
+        $this->assertDatabaseMissing('threads', ['id' => $thread->id]);
+        $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+    }
+
+    /**@test */
+    function  threads_may_only_be_deleted_by_those_who_have_permission()
+    {
+        
+    }
     /**
      * @test
      */

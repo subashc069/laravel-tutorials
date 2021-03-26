@@ -23,6 +23,15 @@
                                             </a>
                                         </h5>
                                     </div>
+                                    <form action="{{ $thread->path()}}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="btn btn-link"
+                                        >
+                                            Delete Thread
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                             <div class="panel-body">
