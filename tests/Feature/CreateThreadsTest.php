@@ -12,7 +12,8 @@ use App\Models\Reply;
 class CreateThreadsTest extends TestCase
 {
 	use RefreshDatabase;
-	/**
+
+    /**
 	 * @test
 	 **/
 	function a_guest_user_may_not_create_threads()
@@ -22,6 +23,7 @@ class CreateThreadsTest extends TestCase
 		$this->post('threads',[])
 			->assertRedirect('/login');
 	}
+
     /**
      * A basic feature test example.
      *
@@ -46,24 +48,26 @@ class CreateThreadsTest extends TestCase
     /**
      * @test
      */
-    function guests_cannot_delete_a_thread()
+    function unauthorised_cannot_delete_a_thread()
     {
         $thread = Thread::factory()->create();
-        $response = $this->delete($thread->path());
+        $this->delete($thread->path())->assertRedirect('/login');
 
-        $response->assertRedirect('/login');
+        $this->signIn();
+        $this->delete($thread->path())->assertStatus(403);
     }
+
     /**
      * @test
      *
      * @return void
      */
-    function threads_can_be_deleted()
+    function authoriesd_users_can_delete_threads()
     {
         $this->signIn();
 		$this->withoutExceptionHandling();
 
-        $thread = Thread::factory()->create();
+        $thread = Thread::factory()->create(['user_id' => auth()->id()]);
         $reply = Reply::factory()->create(['thread_id' => $thread->id]);
         $response = $this->json('DELETE', $thread->path());
         $response->assertStatus(204);
@@ -71,12 +75,7 @@ class CreateThreadsTest extends TestCase
         $this->assertDatabaseMissing('threads', ['id' => $thread->id]);
         $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
     }
-
-    /**@test */
-    function  threads_may_only_be_deleted_by_those_who_have_permission()
-    {
-        
-    }
+    
     /**
      * @test
      */
@@ -110,6 +109,7 @@ class CreateThreadsTest extends TestCase
             ->assertSessionHasErrors('channel_id');
     }
 
+    /**@test */
     public function publishThread($overrides = null)
     {
         $this->signIn();
@@ -117,5 +117,4 @@ class CreateThreadsTest extends TestCase
         
         return $this->post('/threads', $thread->toArray());
     }
-
 }

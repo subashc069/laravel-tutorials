@@ -16,22 +16,23 @@
                                                 {{ $thread->title }}
                                             </a>
                                         </h4>
-
                                         <h5>
                                             Posted By: <a href="{{ route('profiles.show', ['user' => $thread->creator]) }}">
                                                 {{ $thread->creator->name }}
                                             </a>
                                         </h5>
                                     </div>
-                                    <form action="{{ $thread->path()}}" method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                            class="btn btn-link"
-                                        >
-                                            Delete Thread
-                                        </button>
-                                    </form>
+                                    @can('update', $thread)
+                                        <form action="{{ $thread->path()}}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="btn btn-link"
+                                            >
+                                                Delete Thread
+                                            </button>
+                                        </form>
+                                    @endcan
                                 </div>
                             </div>
                             <div class="panel-body">
